@@ -123,44 +123,6 @@ conda activate adaption-kirundi-sft
 
 This environment uses Python 3.11, classic Jupyter Notebook 6, and RISE 5.7 for live slideshow teaching.
 
-Python 3.10 is not required for RISE. This repo keeps Python 3.11 because the current Tinker SDK requires Python 3.11 or newer, while classic RISE works with Python 3 as long as you use classic Notebook 6.
-
-Conda is the recommended setup path for this repo. On macOS, `environment.yml` installs PyTorch through conda (`pytorch`) instead of relying on pip-installed Torch, which avoids native OpenMP conflicts when importing Tinker/Torch.
-
-If you created an earlier version of this environment, recreate it so conda can resolve the Notebook and RISE dependencies cleanly:
-
-```bash
-conda env remove -n adaption-kirundi-sft
-conda env create -f environment.yml
-conda activate adaption-kirundi-sft
-```
-
-If you are already on the Python 3.11 Jupyter environment, update it:
-
-```bash
-conda env update -f environment.yml --prune
-```
-
-Register the kernel so Jupyter shows the environment by name:
-
-```bash
-python -m ipykernel install --user --name adaption-kirundi-sft --display-name "Python 3 (adaption-kirundi-sft)"
-```
-
-To recreate the exact exported environment, use:
-
-```bash
-conda env create -f environment.lock.yml
-```
-
-If you prefer pip:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
 ### 2. Configure environment variables
 
 Copy the example file:
@@ -179,23 +141,7 @@ ADAPTION_API_KEY=your_adaption_api_key
 
 ## How To Run The Jupyter Notebooks
 
-Start classic Jupyter Notebook from the repo root:
-
-```bash
-jupyter notebook
-```
-
-Then open the `notebooks/` folder in the browser and work through the notebooks in order.
-
-This repo uses the classic RISE extension, which works with classic Notebook 6. It is intentionally pinned away from Notebook 7 / JupyterLab for the live slideshow workflow.
-
-To present a notebook with RISE:
-
-1. Open a notebook in classic Jupyter Notebook.
-2. Select the `Python 3 (adaption-kirundi-sft)` kernel if needed.
-3. Use `View > Cell Toolbar > Slideshow` to inspect or edit slide breaks.
-4. Click the RISE slideshow button in the toolbar to switch into presentation mode.
-5. Edit cells normally, then present again without converting files.
+Open the `notebooks/` folder in the browser and work through the notebooks in order.
 
 Run notebooks in order:
 
@@ -209,8 +155,6 @@ Run notebooks in order:
 | 05 | `notebooks/05_compare_results_three.ipynb` | Qualitative three-model comparison | Tinker if generating outputs |
 | 06 | `notebooks/06_evaluate_language_adherence.ipynb` | Language ID summary | optional HF model download |
 | 07 | `notebooks/07_evaluate_kirnews_classification.ipynb` | KIRNEWS accuracy/F1 | Tinker if generating predictions |
-
-If you prefer JupyterLab instead of classic Notebook, install `jupyterlab-rise` separately and use JupyterLab's presentation controls. This repo defaults to classic Notebook because that matches the RISE workflow where the notebook is easy to browse, edit, and present in place.
 
 
 ## How To Run From The CLI
@@ -304,21 +248,6 @@ API usage follows the Adaption documentation:
 - [Processing large datasets](https://docs.adaptionlabs.ai/guides/processing-large-datasets/)
 - [Reasoning traces guide](https://docs.adaptionlabs.ai/guides/reasoning-traces/)
 
-## Product Testing Notes
-
-This repo includes two docs written from the perspective of building with Adaption:
-
-- [`docs/product_testing_notes.md`](docs/product_testing_notes.md)
-- [`docs/onboarding_feedback.md`](docs/onboarding_feedback.md)
-
-Themes captured there:
-
-- what was clear in the docs
-- where a new developer may get stuck
-- what examples or presets would help
-- why "run a pilot first" should be part of the default workflow
-- what SFT export formats would make post-training easier
-
 ## Limitations And Responsible Framing
 
 - This repo is a starter workflow, not a definitive Kirundi benchmark.
@@ -329,24 +258,11 @@ Themes captured there:
 - Tinker and Adaption API calls require credentials and may incur usage costs.
 - The base model choice is configurable. Use a model that your training provider supports and document any change.
 
-## Future Work
-
-- Add native speaker review of prompts, outputs, and adapted data.
-- Run larger training jobs with multiple random seeds.
-- Add better low-resource language evaluation sets.
-- Compare multiple base models.
-- Add before/after Adaption diff visualizations.
-- Add a human review rubric for fluency, correctness, cultural grounding, and task success.
-- Invite Kirundi speakers and Burundian AI practitioners to contribute examples and evaluation criteria.
-- Extend the workflow to other low-resource languages with similarly cautious framing.
-
 ## Important Notice
 
 This project is provided as-is for educational and research purposes.
 
 - It is not production-ready.
 - It may contain incomplete API examples while services evolve.
-- It does not commit API keys, datasets, or model artifacts.
-- It should not be used to make claims about real-world Kirundi language performance without human review.
 
-Contributions and careful critique are welcome.
+Contributions are welcome! Please feel free to submit issues or pull requests.
