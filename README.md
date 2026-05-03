@@ -2,7 +2,7 @@
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Status: Beta](https://img.shields.io/badge/status-beta-orange.svg)]()
-[![Purpose: Educational](https://img.shields.io/badge/purpose-educational.svg)]()
+[![Purpose: Educational](https://img.shields.io/badge/purpose-educational-green.svg)]()
 
 An open-source starter repo for improving low-resource Kirundi SFT data with [Adaption](https://docs.adaptionlabs.ai/) and evaluating post-training outcomes.
 
