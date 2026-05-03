@@ -1,0 +1,66 @@
+# Notebooks
+*.ipynb
+.ipynb_checkpoints/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# macOS
+.DS_Store
+._*
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyre/
+.coverage
+htmlcov/
+
+# Python packaging and build outputs
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter
+.jupyter/
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# ML and experiment outputs
+wandb/
+mlruns/
+checkpoints/
+outputs/
+runs/
+artifacts/
+*.ckpt
+*.safetensors
+*.pt
+*.pth
+
+# Local data
+data/raw/
+data/interim/
+data/processed/
