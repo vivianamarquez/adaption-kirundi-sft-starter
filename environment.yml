@@ -7,8 +7,11 @@ dependencies:
   - pip
   - ipykernel
   - jupyterlab
+  - matplotlib
   - numpy
   - pandas
+  - requests
+  - seaborn
   - scikit-learn
   - pyyaml
   - python-dotenv
@@ -16,14 +19,17 @@ dependencies:
   - pytest
   - ruff
   - pip:
+      - adaption
       - accelerate
       - datasets
       - evaluate
       - huggingface-hub
+      - langdetect
       - openai
       - peft
       - sacrebleu
       - sentencepiece
+      - tinker
+      - tinker-cookbook
       - transformers
       - trl
-      - wandb

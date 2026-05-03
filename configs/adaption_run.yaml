@@ -1,0 +1,22 @@
+input_path: data/processed/kakugo_adaption_input.csv
+output_path: data/adapted/kakugo_adapted.csv
+metadata_path: results/adaption_run_metadata.json
+
+dataset_name: kakugo-run-kirundi-pilot
+
+column_mapping:
+  prompt: instruction
+  completion: response
+
+pilot:
+  max_rows: 25
+  timeout_seconds: 1800
+
+full_run:
+  max_rows: null
+  timeout_seconds: 7200
+
+run_controls:
+  estimate_first: true
+  run_pilot_first: true
+  run_full_by_default: false

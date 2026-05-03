@@ -1,0 +1,12 @@
+run_name: sft_raw
+base_model: Qwen/Qwen3-8B-Base
+renderer_name: role_colon
+data_path: data/processed/kakugo_raw_sft.jsonl
+output_dir: results/models/sft_raw
+learning_rate: 2e-4
+num_epochs: 3
+batch_size: 4
+lora_rank: 16
+max_length: 2048
+train_on_what: last_assistant_message
+save_every: 50

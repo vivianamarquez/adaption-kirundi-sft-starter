@@ -1,0 +1,49 @@
+project:
+  name: adaption-kirundi-sft-starter
+  description: "Improve low-resource Kirundi SFT data with Adaption and evaluate post-training outcomes."
+  random_seed: 42
+
+datasets:
+  sft:
+    id: ptrdvn/kakugo-run
+    split: train
+    sample_size: 200
+    max_chars_per_field: 4000
+    raw_sample_path: data/raw/kakugo_run_sample.jsonl
+    adaption_input_path: data/processed/kakugo_adaption_input.csv
+    raw_sft_path: data/processed/kakugo_raw_sft.jsonl
+    adapted_output_path: data/adapted/kakugo_adapted.csv
+    adapted_sft_path: data/processed/kakugo_adapted_sft.jsonl
+  kirnews:
+    id: andreniyongabo/kinnews_kirnews
+    config: kirnews_raw
+    split: test
+    sample_size: 100
+    prompt_path: data/eval/kirnews_prompts.jsonl
+
+models:
+  base_model: Qwen/Qwen3-8B-Base
+  renderer_name: role_colon
+  max_new_tokens: 300
+  temperature: 0.2
+  repetition_penalty: 1.05
+  registry:
+    base:
+      label: Base model
+      model_name: Qwen/Qwen3-8B-Base
+      response_path: results/responses/base.jsonl
+    sft_raw:
+      label: SFT without Adaption
+      checkpoint_path: results/models/sft_raw/checkpoints.jsonl
+      response_path: results/responses/sft_raw.jsonl
+    sft_adapted:
+      label: SFT with Adaption-improved data
+      checkpoint_path: results/models/sft_adapted/checkpoints.jsonl
+      response_path: results/responses/sft_adapted.jsonl
+
+evaluation:
+  language_id_model: UBC-NLP/afrolid_1.5
+  language_prompts_path: configs/language_adherence_prompts.jsonl
+  language_results_path: results/eval/language_adherence.csv
+  kirnews_results_path: results/eval/kirnews_classification.csv
+  comparison_summary_path: results/eval/comparison_summary.csv

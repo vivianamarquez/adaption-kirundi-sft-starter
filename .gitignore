@@ -1,5 +1,4 @@
-# Notebooks
-*.ipynb
+# Notebook runtime artifacts
 .ipynb_checkpoints/
 
 # Environment variables and secrets
@@ -59,8 +58,20 @@ artifacts/
 *.safetensors
 *.pt
 *.pth
+*.bin
+*.gguf
 
-# Local data
-data/raw/
-data/interim/
-data/processed/
+# Local/generated data
+data/raw/*
+data/processed/*
+data/adapted/*
+data/eval/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/adapted/.gitkeep
+!data/eval/.gitkeep
+
+# Generated results
+results/*
+!results/.gitkeep
+!results/README.md

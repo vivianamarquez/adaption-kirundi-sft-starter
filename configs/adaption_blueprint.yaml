@@ -1,0 +1,32 @@
+goal: >
+  Improve this dataset for supervised fine-tuning a small assistant that can
+  answer beginner-friendly questions in Rundi/Kirundi.
+
+constraints:
+  - Preserve the meaning of the original instruction and response.
+  - Keep responses in Rundi/Kirundi unless the task explicitly asks for translation.
+  - Make responses clear, concise, and educational.
+  - Remove malformed formatting, unwanted reasoning traces, duplicated content, or low-quality responses.
+  - Avoid unsupported factual claims.
+  - Do not invent local facts, institutions, statistics, or cultural details.
+  - Prefer simple explanations suitable for first-time AI learners.
+
+quality_checks:
+  - The prompt should be understandable without hidden context.
+  - The response should directly answer the prompt.
+  - The response should not include private chain-of-thought or hidden reasoning traces.
+  - The response should avoid unnecessary English unless the prompt requests translation.
+  - The response should be useful as supervised fine-tuning data.
+
+adaption_brand_controls:
+  length: concise
+  hallucination_mitigation: false
+  safety_categories:
+    - harassment
+    - hate
+
+adaption_recipe_specification:
+  recipes:
+    deduplication: true
+    prompt_rephrase: true
+    reasoning_traces: false
