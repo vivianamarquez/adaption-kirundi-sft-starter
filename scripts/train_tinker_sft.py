@@ -25,10 +25,13 @@ def main() -> None:
     ensure_dir(PROJECT_ROOT / config["output_dir"])
 
     plan = training_plan(config)
-    if args.dry_run or not os.environ.get("TINKER_API_KEY"):
+    if args.dry_run:
         print(json.dumps(plan, indent=2))
-        print("\nDry run only. Set TINKER_TOKEN or TINKER_API_KEY to launch training.")
+        print("\nDry run only. Rerun without --dry-run to launch training.")
         return
+
+    if not os.environ.get("TINKER_API_KEY"):
+        raise RuntimeError("Missing TINKER_TOKEN or TINKER_API_KEY. Add it to .env before launching training.")
 
     import nest_asyncio
     from huggingface_hub import login
@@ -61,7 +64,16 @@ def main() -> None:
         num_epochs=int(config["num_epochs"]),
     )
 
-    print("Starting SFT training. Watch train_mean_nll in the logs.")
+    print("\nSFT Config:")
+    print(f"  Run:           {config['run_name']}")
+    print(f"  Model:         {sft_config.model_name}")
+    print(f"  Renderer:      {config['renderer_name']}")
+    print(f"  Data:          {PROJECT_ROOT / config['data_path']}")
+    print(f"  Output:        {sft_config.log_path}")
+    print(f"  Learning rate: {sft_config.learning_rate}")
+    print(f"  LoRA rank:     {sft_config.lora_rank}")
+    print(f"  Epochs:        {sft_config.num_epochs}")
+    print("\nStarting SFT training. Watch train_mean_nll in the logs.")
     result = asyncio.get_event_loop().run_until_complete(train_main(sft_config))
     print(result)
 
