@@ -147,7 +147,6 @@ Run notebooks in order:
 
 | # | Notebook | What it does | External key needed |
 |---|---|---|---|
-| 00 | `notebooks/00_project_overview.ipynb` | Explains the project and workflow | no |
 | 01 | `notebooks/01_prepare_kirundi_sft_dataset.ipynb` | Builds raw SFT and Adaption input files | no |
 | 02 | `notebooks/02_adapt_dataset_with_adaption.ipynb` | Runs Adaption estimate/pilot/download flow | Adaption for API cells |
 | 03 | `notebooks/03_sft_without_adaption.ipynb` | Tinker SFT on raw data | Tinker |
