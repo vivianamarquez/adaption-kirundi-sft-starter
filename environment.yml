@@ -5,11 +5,11 @@ channels:
 dependencies:
   - python=3.11
   - pip
+  - httpx
   - marimo
   - matplotlib
   - numpy
   - pandas
-  - requests
   - seaborn
   - scikit-learn
   - pyyaml

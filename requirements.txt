@@ -3,6 +3,7 @@ accelerate
 datasets
 evaluate
 huggingface-hub
+httpx
 langdetect
 marimo
 matplotlib
@@ -12,7 +13,6 @@ pandas
 peft
 python-dotenv
 pyyaml
-requests
 ruff
 sacrebleu
 scikit-learn

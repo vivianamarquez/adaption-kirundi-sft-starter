@@ -7,7 +7,7 @@ import sys
 import time
 from pathlib import Path
 
-import requests
+import httpx
 
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
 
@@ -36,7 +36,7 @@ def wait_until_ingested(client, dataset_id: str, timeout_seconds: int = 600) -> 
 
 def download_to_file(client, dataset_id: str, output_path: Path) -> None:
     url = client.datasets.download(dataset_id, file_format=output_path.suffix.lstrip(".") or "csv")
-    response = requests.get(url, timeout=120)
+    response = httpx.get(url, timeout=120)
     response.raise_for_status()
     ensure_dir(output_path)
     output_path.write_bytes(response.content)
