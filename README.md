@@ -37,3 +37,19 @@ Register the environment as a Jupyter kernel:
 ```bash
 python -m ipykernel install --user --name adaption-kirundi-sft --display-name "Python (adaption-kirundi-sft)"
 ```
+
+## Secrets
+
+Local API tokens are loaded from `.env`, which is ignored by git. Use `.env.example` as the template:
+
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` with your own token values:
+
+```bash
+HF_TOKEN=your_huggingface_token_here
+TINKER_TOKEN=your_tinker_token_here
+ADAPTION_TOKEN=your_adaption_token_here
+```
