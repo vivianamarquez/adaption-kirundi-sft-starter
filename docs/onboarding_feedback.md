@@ -17,7 +17,7 @@ This document translates the build experience into onboarding suggestions for de
 
 ## Onboarding Improvements For Adaption
 
-- Official SFT starter repo with marimo notebooks and scripts.
+- Official SFT starter repo with Jupyter notebooks and scripts.
 - Sample dataset that requires no customer data.
 - Before/after table UI that highlights row-level changes.
 - SFT export presets for Tinker, TRL, OpenAI fine-tuning JSONL, and generic chat JSONL.
@@ -46,7 +46,7 @@ For an SFT-focused workflow, useful defaults would be:
 
 ## Notes For This Repo
 
-- The marimo notebooks are intentionally readable even when credentials are missing.
+- The Jupyter notebooks are intentionally readable even when credentials are missing.
 - Cells that call paid or external APIs are marked as credential-required.
 - The default flow avoids RLHF, DPO, and preference optimization so the learning goal stays focused on SFT data quality.
 - The evaluation is a proxy. It should guide iteration, not replace native speaker review.

@@ -6,7 +6,12 @@ dependencies:
   - python=3.11
   - pip
   - httpx
-  - marimo
+  - ipykernel
+  - jupyter
+  - nbconvert
+  - nbformat
+  - notebook=6.5
+  - rise=5.7
   - matplotlib
   - numpy
   - pandas
@@ -14,8 +19,10 @@ dependencies:
   - scikit-learn
   - pyyaml
   - python-dotenv
+  - setuptools<81
   - tqdm
   - pytest
+  - pytorch
   - ruff
   - pip:
       - adaption
@@ -26,9 +33,10 @@ dependencies:
       - langdetect
       - openai
       - peft
-      - sacrebleu
+      - sacrebleu==2.6.0
       - sentencepiece
-      - tinker
-      - tinker-cookbook
+      - setuptools<81
+      - tinker>=0.18
+      - tinker-cookbook>=0.3
       - transformers
       - trl

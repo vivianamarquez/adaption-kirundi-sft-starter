@@ -1,14 +1,12 @@
 # Adaption Kirundi SFT Starter
 
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
 [![Status: Beta](https://img.shields.io/badge/status-beta-orange.svg)]()
 [![Purpose: Educational](https://img.shields.io/badge/purpose-educational-green.svg)]()
 
 An open-source starter repo for improving low-resource Kirundi SFT data with [Adaption](https://adaptionlabs.ai/) and evaluating post-training outcomes.
 
 > If we improve low-resource SFT data before training, do we see measurable changes in model behavior?
-
-This repo uses [marimo](https://marimo.io/) notebooks instead of Jupyter notebooks. marimo notebooks are stored as plain Python files, which makes them easier to review in git, run as scripts, and reuse as lightweight apps.
 
 ## Why This Project Exists
 
@@ -70,7 +68,7 @@ Question:
 
 > Did the model actually answer in Kirundi?
 
-The preferred automatic evaluator is an African-language-aware language ID model such as [`UBC-NLP/afrolid_1.5`](https://huggingface.co/UBC-NLP/afrolid_1.5). If that is too heavy or unavailable, the marimo notebook includes a transparent fallback heuristic and marks it as a fallback.
+The preferred automatic evaluator is an African-language-aware language ID model such as [`UBC-NLP/afrolid_1.5`](https://huggingface.co/UBC-NLP/afrolid_1.5). If that is too heavy or unavailable, the notebook includes a transparent fallback heuristic and marks it as a fallback.
 
 Report table:
 
@@ -123,10 +121,30 @@ conda env create -f environment.yml
 conda activate adaption-kirundi-sft
 ```
 
-If you already created the environment before marimo was added, update it:
+This environment uses Python 3.11, classic Jupyter Notebook 6, and RISE 5.7 for live slideshow teaching.
+
+Python 3.10 is not required for RISE. This repo keeps Python 3.11 because the current Tinker SDK requires Python 3.11 or newer, while classic RISE works with Python 3 as long as you use classic Notebook 6.
+
+Conda is the recommended setup path for this repo. On macOS, `environment.yml` installs PyTorch through conda (`pytorch`) instead of relying on pip-installed Torch, which avoids native OpenMP conflicts when importing Tinker/Torch.
+
+If you created an earlier version of this environment, recreate it so conda can resolve the Notebook and RISE dependencies cleanly:
+
+```bash
+conda env remove -n adaption-kirundi-sft
+conda env create -f environment.yml
+conda activate adaption-kirundi-sft
+```
+
+If you are already on the Python 3.11 Jupyter environment, update it:
 
 ```bash
 conda env update -f environment.yml --prune
+```
+
+Register the kernel so Jupyter shows the environment by name:
+
+```bash
+python -m ipykernel install --user --name adaption-kirundi-sft --display-name "Python 3 (adaption-kirundi-sft)"
 ```
 
 To recreate the exact exported environment, use:
@@ -159,44 +177,40 @@ TINKER_TOKEN=your_tinker_api_token
 ADAPTION_API_KEY=your_adaption_api_key
 ```
 
-## How To Run The marimo Notebooks
+## How To Run The Jupyter Notebooks
 
-Open the marimo editor from the repo root:
-
-```bash
-marimo edit
-```
-
-Open a specific notebook:
+Start classic Jupyter Notebook from the repo root:
 
 ```bash
-marimo edit notebooks/00_project_overview.py
+jupyter notebook
 ```
 
-Run a notebook as a read-only app:
+Then open the `notebooks/` folder in the browser and work through the notebooks in order.
 
-```bash
-marimo run notebooks/00_project_overview.py
-```
+This repo uses the classic RISE extension, which works with classic Notebook 6. It is intentionally pinned away from Notebook 7 / JupyterLab for the live slideshow workflow.
 
-Execute a notebook as a Python script:
+To present a notebook with RISE:
 
-```bash
-python notebooks/00_project_overview.py
-```
+1. Open a notebook in classic Jupyter Notebook.
+2. Select the `Python 3 (adaption-kirundi-sft)` kernel if needed.
+3. Use `View > Cell Toolbar > Slideshow` to inspect or edit slide breaks.
+4. Click the RISE slideshow button in the toolbar to switch into presentation mode.
+5. Edit cells normally, then present again without converting files.
 
 Run notebooks in order:
 
 | # | Notebook | What it does | External key needed |
 |---|---|---|---|
-| 00 | `notebooks/00_project_overview.py` | Explains the project and workflow | no |
-| 01 | `notebooks/01_prepare_kirundi_sft_dataset.py` | Builds raw SFT and Adaption input files | no |
-| 02 | `notebooks/02_adapt_dataset_with_adaption.py` | Runs Adaption estimate/pilot/download flow | Adaption for API cells |
-| 03 | `notebooks/03_sft_without_adaption.py` | Tinker SFT on raw data | Tinker |
-| 04 | `notebooks/04_sft_with_adaption.py` | Tinker SFT on adapted data | Tinker |
-| 05 | `notebooks/05_compare_results_three.py` | Qualitative three-model comparison | Tinker if generating outputs |
-| 06 | `notebooks/06_evaluate_language_adherence.py` | Language ID summary | optional HF model download |
-| 07 | `notebooks/07_evaluate_kirnews_classification.py` | KIRNEWS accuracy/F1 | Tinker if generating predictions |
+| 00 | `notebooks/00_project_overview.ipynb` | Explains the project and workflow | no |
+| 01 | `notebooks/01_prepare_kirundi_sft_dataset.ipynb` | Builds raw SFT and Adaption input files | no |
+| 02 | `notebooks/02_adapt_dataset_with_adaption.ipynb` | Runs Adaption estimate/pilot/download flow | Adaption for API cells |
+| 03 | `notebooks/03_sft_without_adaption.ipynb` | Tinker SFT on raw data | Tinker |
+| 04 | `notebooks/04_sft_with_adaption.ipynb` | Tinker SFT on adapted data | Tinker |
+| 05 | `notebooks/05_compare_results_three.ipynb` | Qualitative three-model comparison | Tinker if generating outputs |
+| 06 | `notebooks/06_evaluate_language_adherence.ipynb` | Language ID summary | optional HF model download |
+| 07 | `notebooks/07_evaluate_kirnews_classification.ipynb` | KIRNEWS accuracy/F1 | Tinker if generating predictions |
+
+If you prefer JupyterLab instead of classic Notebook, install `jupyterlab-rise` separately and use JupyterLab's presentation controls. This repo defaults to classic Notebook because that matches the RISE workflow where the notebook is easy to browse, edit, and present in place.
 
 
 ## How To Run From The CLI
