@@ -8,7 +8,7 @@ from typing import Any
 import pandas as pd
 from datasets import load_dataset
 
-from .utils import ensure_dir, write_jsonl
+from .utils import ensure_dir, project_path, write_jsonl
 
 THINKING_RE = re.compile(r"<think>.*?</think>", flags=re.DOTALL | re.IGNORECASE)
 
@@ -74,11 +74,13 @@ def prepare_kakugo_subset(config: dict[str, Any]) -> pd.DataFrame:
         )
 
     df = pd.DataFrame(rows)
-    ensure_dir(ds_cfg["raw_sample_path"])
-    df.to_json(ds_cfg["raw_sample_path"], orient="records", lines=True, force_ascii=False)
+    raw_sample_path = project_path(ds_cfg["raw_sample_path"])
+    ensure_dir(raw_sample_path)
+    df.to_json(raw_sample_path, orient="records", lines=True, force_ascii=False)
 
-    ensure_dir(ds_cfg["adaption_input_path"])
-    df[["example_id", "instruction", "response"]].to_csv(ds_cfg["adaption_input_path"], index=False)
+    adaption_input_path = project_path(ds_cfg["adaption_input_path"])
+    ensure_dir(adaption_input_path)
+    df[["example_id", "instruction", "response"]].to_csv(adaption_input_path, index=False)
 
     save_sft_jsonl(df, ds_cfg["raw_sft_path"])
     return df
@@ -100,7 +102,7 @@ def save_sft_jsonl(df: pd.DataFrame, path: str | Path) -> Path:
 
 
 def load_adapted_table(path: str | Path) -> pd.DataFrame:
-    path = Path(path)
+    path = project_path(path)
     suffix = path.suffix.lower()
     if suffix == ".csv":
         return pd.read_csv(path)
@@ -187,6 +189,7 @@ def load_kirnews_prompts(config: dict[str, Any]) -> pd.DataFrame:
         )
 
     df = pd.DataFrame(rows)
-    ensure_dir(eval_cfg["prompt_path"])
-    df.to_json(eval_cfg["prompt_path"], orient="records", lines=True, force_ascii=False)
+    prompt_path = project_path(eval_cfg["prompt_path"])
+    ensure_dir(prompt_path)
+    df.to_json(prompt_path, orient="records", lines=True, force_ascii=False)
     return df

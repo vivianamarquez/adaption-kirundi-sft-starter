@@ -11,8 +11,15 @@ from dotenv import load_dotenv
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
-def ensure_dir(path: str | Path) -> Path:
+def project_path(path: str | Path) -> Path:
     path = Path(path)
+    if path.is_absolute():
+        return path
+    return PROJECT_ROOT / path
+
+
+def ensure_dir(path: str | Path) -> Path:
+    path = project_path(path)
     if path.suffix:
         path.parent.mkdir(parents=True, exist_ok=True)
     else:
@@ -28,6 +35,12 @@ def load_yaml(path: str | Path) -> dict[str, Any]:
 def load_env() -> None:
     load_dotenv(PROJECT_ROOT / ".env")
 
+    if os.environ.get("HUGGING_FACE_HUB_TOKEN") and not os.environ.get("HF_TOKEN"):
+        os.environ["HF_TOKEN"] = os.environ["HUGGING_FACE_HUB_TOKEN"]
+
+    if os.environ.get("HF_TOKEN") and not os.environ.get("HUGGING_FACE_HUB_TOKEN"):
+        os.environ["HUGGING_FACE_HUB_TOKEN"] = os.environ["HF_TOKEN"]
+
     if os.environ.get("TINKER_TOKEN") and not os.environ.get("TINKER_API_KEY"):
         os.environ["TINKER_API_KEY"] = os.environ["TINKER_TOKEN"]
 
@@ -36,8 +49,9 @@ def load_env() -> None:
 
 
 def read_jsonl(path: str | Path) -> list[dict[str, Any]]:
+    path = project_path(path)
     rows: list[dict[str, Any]] = []
-    with Path(path).open("r", encoding="utf-8") as f:
+    with path.open("r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if line:
@@ -54,7 +68,7 @@ def write_jsonl(rows: list[dict[str, Any]], path: str | Path) -> Path:
 
 
 def require_file(path: str | Path, hint: str = "") -> Path:
-    path = Path(path)
+    path = project_path(path)
     if not path.exists():
         message = f"Missing required file: {path}"
         if hint:

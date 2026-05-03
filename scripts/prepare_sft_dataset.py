@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[1] / "src"))
 
 from kirundi_sft_starter.data import prepare_kakugo_subset
-from kirundi_sft_starter.utils import PROJECT_ROOT, load_yaml
+from kirundi_sft_starter.utils import PROJECT_ROOT, load_env, load_yaml
 
 
 def main() -> None:
@@ -15,6 +15,7 @@ def main() -> None:
     parser.add_argument("--config", default="configs/project.yaml")
     args = parser.parse_args()
 
+    load_env()
     config = load_yaml(PROJECT_ROOT / args.config)
     df = prepare_kakugo_subset(config)
 
