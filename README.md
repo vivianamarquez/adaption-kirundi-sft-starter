@@ -10,11 +10,15 @@ An open-source starter repo for improving low-resource Kirundi SFT data with [Ad
 
 ## Why This Project Exists
 
-I taught AI in Burundi and saw firsthand that access and language inclusion are not evenly distributed. Many AI workflows assume abundant English data, large evaluation sets, and teams with native-language reviewers available at every step. That is not the reality for many low-resource languages.
+In 2023, I taught AI in Burundi and saw the AI gap up close. At the time, many of the most widely used LLM tools were not accessible from the country. But the gap was bigger than platform access alone. It was also a language gap, a data gap, and a design gap.
 
-This repo explores one practical slice of that problem: can adaptive data improvement make a Kirundi/Rundi SFT workflow easier to test, compare, and improve?
+Many AI workflows assume abundant English data, large evaluation sets, and easy access to native-language reviewers. That is not the reality for many low-resource languages. For communities whose languages are underrepresented in training data, AI often does not meet people where they are.
 
-The framing is intentionally cautious. Automatic metrics are proxies. Native speaker review matters. The goal here is a clear starter workflow that developers, researchers, and product teams can extend responsibly.
+This repo explores one practical slice of that problem: can adaptive data improvement make a Kirundi SFT workflow easier to build, test, compare, and improve?
+
+The broader question is even more important: what would it look like for AI systems to adapt to the world, instead of expecting the world to adapt to them?
+
+The framing is intentionally cautious. Automatic metrics are only proxies. Native speaker review matters. This repo does not claim to solve low-resource language AI. Instead, it offers a clear starter workflow that developers, researchers, and product teams can extend responsibly.
 
 ## What This Repo Builds
 
