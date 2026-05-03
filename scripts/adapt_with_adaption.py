@@ -83,11 +83,36 @@ def wait_for_completion(
 
 
 def download_to_file(client, dataset_id: str, output_path: Path) -> None:
-    url = client.datasets.download(dataset_id, file_format=output_path.suffix.lstrip(".") or "csv")
-    response = httpx.get(url, timeout=120)
-    response.raise_for_status()
+    download_result = client.datasets.download(
+        dataset_id,
+        file_format=output_path.suffix.lstrip(".") or "csv",
+    )
     ensure_dir(output_path)
-    output_path.write_bytes(response.content)
+
+    if isinstance(download_result, bytes):
+        output_path.write_bytes(download_result)
+        return
+
+    if isinstance(download_result, str):
+        if download_result.startswith(("http://", "https://")):
+            response = httpx.get(download_result, timeout=120)
+            response.raise_for_status()
+            output_path.write_bytes(response.content)
+            return
+        output_path.write_text(download_result, encoding="utf-8")
+        return
+
+    content = getattr(download_result, "content", None)
+    if isinstance(content, bytes):
+        output_path.write_bytes(content)
+        return
+
+    text = getattr(download_result, "text", None)
+    if isinstance(text, str):
+        output_path.write_text(text, encoding="utf-8")
+        return
+
+    raise TypeError(f"Unsupported Adaption download response type: {type(download_result)!r}")
 
 
 def to_plain_data(value):
