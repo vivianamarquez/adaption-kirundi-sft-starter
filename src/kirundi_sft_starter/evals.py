@@ -9,22 +9,6 @@ from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
 
 from .utils import read_jsonl
 
-KIRUNDI_MARKERS = {
-    "ivyo",
-    "kandi",
-    "nivyo",
-    "umuntu",
-    "abantu",
-    "mu",
-    "ku",
-    "cane",
-    "neza",
-    "amakuru",
-    "uburyo",
-    "ikintu",
-}
-
-
 def normalize_label(text: str, labels: list[str]) -> str:
     text = (text or "").strip().lower()
     text = re.sub(r"[^a-z\s_-]", " ", text)
@@ -40,25 +24,9 @@ def is_kirundi_label(label: str, prefixes: tuple[str, ...] = ("run", "rn")) -> b
     return normalized.startswith(prefixes) or "kirundi" in normalized
 
 
-def fallback_kirundi_heuristic(text: str) -> tuple[str, float]:
-    words = re.findall(r"[A-Za-z']+", (text or "").lower())
-    if not words:
-        return "unknown", 0.0
-    marker_hits = sum(1 for word in words if word in KIRUNDI_MARKERS)
-    score = marker_hits / max(1, min(len(words), 50))
-    label = "heuristic_kirundi" if score >= 0.06 else "unknown"
-    return label, min(1.0, score * 10)
-
-
-def classify_language(text: str, lid_pipeline: Any | None = None) -> dict[str, Any]:
+def classify_language(text: str, lid_pipeline: Any) -> dict[str, Any]:
     if lid_pipeline is None:
-        label, score = fallback_kirundi_heuristic(text)
-        return {
-            "language_label": label,
-            "language_score": score,
-            "is_kirundi": is_kirundi_label(label),
-            "method": "fallback_heuristic",
-        }
+        raise ValueError("A language-identification pipeline is required.")
 
     result = lid_pipeline(text[:1000])
     if isinstance(result, list):

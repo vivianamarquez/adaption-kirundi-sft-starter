@@ -8,7 +8,7 @@ This document translates the build experience into onboarding suggestions for de
 2. Upload the file.
 3. Confirm column mapping.
 4. Run an estimate.
-5. Run a pilot on 10-25 rows.
+5. Run a small pilot before scaling up.
 6. Inspect before/after examples.
 7. Download the adapted output.
 8. Export to a training-ready format.
@@ -17,7 +17,7 @@ This document translates the build experience into onboarding suggestions for de
 
 ## Onboarding Improvements For Adaption
 
-- Official SFT starter repo with Jupyter notebooks and scripts.
+- Official notebook-first SFT starter repo.
 - Sample dataset that requires no customer data.
 - Before/after table UI that highlights row-level changes.
 - SFT export presets for Tinker, TRL, OpenAI fine-tuning JSONL, and generic chat JSONL.
@@ -38,7 +38,7 @@ For an SFT-focused workflow, useful defaults would be:
 | Setting | Suggested default | Why |
 |---|---|---|
 | `estimate_first` | true | Avoids accidental spend |
-| `pilot_max_rows` | 25 | Makes review fast |
+| `pilot_max_rows` | small review sample | Makes review fast |
 | `reasoning_traces` | false | Avoids training on hidden reasoning by accident |
 | `length` | concise | Keeps examples consistent |
 | export format | chat JSONL | Common denominator for SFT |
@@ -46,7 +46,7 @@ For an SFT-focused workflow, useful defaults would be:
 
 ## Notes For This Repo
 
-- The Jupyter notebooks are intentionally readable even when credentials are missing.
-- Cells that call paid or external APIs are marked as credential-required.
+- The Jupyter notebooks are intentionally runnable as real workflows when credentials are configured.
+- Cells that call paid or external APIs should fail clearly if credentials, input files, or service access are missing.
 - The default flow avoids RLHF, DPO, and preference optimization so the learning goal stays focused on SFT data quality.
 - The evaluation is a proxy. It should guide iteration, not replace native speaker review.
