@@ -40,39 +40,6 @@ This repo walks through an end-to-end SFT experiment:
    - language adherence: did the model answer in Kirundi/Rundi?
    - KIRNEWS classification: did the model classify labeled Kirundi news articles correctly?
 
-## Workflow Diagram
-
-```text
-Hugging Face: ptrdvn/kakugo-run
-        |
-        v
-Small clean experiment subset
-        |
-        +-----------------------------+
-        |                             |
-        v                             v
-Raw chat SFT JSONL              Adaption input CSV
-        |                             |
-        |                             v
-        |                    Adaption estimate
-        |                             |
-        |                             v
-        |                    Adaption pilot run
-        |                             |
-        |                             v
-        |                    Adapted output CSV
-        |                             |
-        v                             v
-Tinker SFT: raw data          Tinker SFT: adapted data
-        |                             |
-        +-------------+---------------+
-                      |
-                      v
-       Compare base vs raw SFT vs adapted SFT
-                      |
-                      v
-      Language adherence + KIRNEWS classification
-```
 
 ## Experiment Design
 
