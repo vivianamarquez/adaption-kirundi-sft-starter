@@ -55,8 +55,8 @@ The two SFT notebooks use matching training settings. The intended experimental 
 
 | Dataset | Repo ID | Used for |
 |---|---|---|
-| Kakugo Rundi SFT data | [`ptrdvn/kakugo-run`](https://huggingface.co/datasets/ptrdvn/kakugo-run) | Raw SFT data for both training conditions |
-| KIRNEWS/KINNEWS | [`andreniyongabo/kinnews_kirnews`](https://huggingface.co/datasets/andreniyongabo/kinnews_kirnews) | Labeled Kirundi news classification evaluation |
+| Kakugo Kirundi SFT data | [`ptrdvn/kakugo-run`](https://huggingface.co/datasets/ptrdvn/kakugo-run) | Raw SFT data for both training conditions |
+| KIRNEWS | [`andreniyongabo/kinnews_kirnews`](https://huggingface.co/datasets/andreniyongabo/kinnews_kirnews) | Labeled Kirundi news classification evaluation |
 
 The KIRNEWS evaluation asks the model to classify an article into English labels such as `politics`, `sport`, `economy`, `health`, `technology`, `education`, and related categories.
 
@@ -66,7 +66,7 @@ The KIRNEWS evaluation asks the model to classify an article into English labels
 
 Question:
 
-> Did the model actually answer in Kirundi/Rundi?
+> Did the model actually answer in Kirundi?
 
 The preferred automatic evaluator is an African-language-aware language ID model such as [`UBC-NLP/afrolid_1.5`](https://huggingface.co/UBC-NLP/afrolid_1.5). If that is too heavy or unavailable, the notebook includes a transparent fallback heuristic and marks it as a fallback.
 
@@ -106,46 +106,6 @@ The comparison notebook also builds a qualitative table:
 
 This is where native speaker review should eventually enter the loop.
 
-## Repo Structure
-
-```text
-adaption-kirundi-sft-starter/
-├── README.md
-├── LICENSE
-├── .env.example
-├── .gitignore
-├── environment.yml
-├── requirements.txt
-├── pyproject.toml
-├── configs/
-│   ├── project.yaml
-│   ├── adaption_blueprint.yaml
-│   ├── adaption_run.yaml
-│   ├── tinker_sft_raw.yaml
-│   ├── tinker_sft_adapted.yaml
-│   ├── evaluation.yaml
-│   └── language_adherence_prompts.jsonl
-├── data/
-│   ├── README.md
-│   ├── raw/
-│   ├── processed/
-│   ├── adapted/
-│   └── eval/
-├── docs/
-│   ├── product_testing_notes.md
-│   └── onboarding_feedback.md
-├── notebooks/
-│   ├── 00_project_overview.ipynb
-│   ├── 01_prepare_kirundi_sft_dataset.ipynb
-│   ├── 02_adapt_dataset_with_adaption.ipynb
-│   ├── 03_sft_without_adaption.ipynb
-│   ├── 04_sft_with_adaption.ipynb
-│   ├── 05_compare_results_three.ipynb
-│   ├── 06_evaluate_language_adherence.ipynb
-│   └── 07_evaluate_kirnews_classification.ipynb
-├── scripts/
-└── src/kirundi_sft_starter/
-```
 
 ## Setup
 
@@ -156,27 +116,7 @@ conda env create -f environment.yml
 conda activate adaption-kirundi-sft
 ```
 
-If you already created the environment before this scaffold was added, update it:
-
-```bash
-conda env update -f environment.yml --prune
-```
-
-If you prefer pip:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-### 2. Register the Jupyter kernel
-
-```bash
-python -m ipykernel install --user --name adaption-kirundi-sft --display-name "Python (adaption-kirundi-sft)"
-```
-
-### 3. Configure environment variables
+### 2. Configure environment variables
 
 Copy the example file:
 
@@ -191,15 +131,6 @@ HF_TOKEN=your_huggingface_token
 TINKER_TOKEN=your_tinker_api_token
 ADAPTION_API_KEY=your_adaption_api_key
 ```
-
-The notebooks and scripts also support these local aliases:
-
-```bash
-TINKER_API_KEY=your_tinker_api_token
-ADAPTION_TOKEN=your_adaption_api_key
-```
-
-Never commit `.env`.
 
 ## How To Run The Notebooks
 
@@ -216,11 +147,6 @@ Run notebooks in order:
 | 06 | `notebooks/06_evaluate_language_adherence.ipynb` | Language ID summary | optional HF model download |
 | 07 | `notebooks/07_evaluate_kirnews_classification.ipynb` | KIRNEWS accuracy/F1 | Tinker if generating predictions |
 
-Launch Jupyter:
-
-```bash
-jupyter lab
-```
 
 ## How To Run From The CLI
 
@@ -297,44 +223,6 @@ python scripts/evaluate_kirnews_classification.py --predictions results/response
 
 For a combined three-model KIRNEWS score, concatenate prediction JSONL files first or score them in Notebook 07.
 
-## Expected Outputs
-
-```text
-data/
-├── raw/kakugo_run_sample.jsonl
-├── processed/kakugo_adaption_input.csv
-├── processed/kakugo_raw_sft.jsonl
-├── adapted/kakugo_adapted.csv
-├── processed/kakugo_adapted_sft.jsonl
-└── eval/kirnews_prompts.jsonl
-
-results/
-├── models/sft_raw/
-├── models/sft_adapted/
-├── responses/
-│   ├── base.jsonl
-│   ├── sft_raw.jsonl
-│   ├── sft_adapted.jsonl
-│   ├── kirnews_base.jsonl
-│   ├── kirnews_sft_raw.jsonl
-│   └── kirnews_sft_adapted.jsonl
-└── eval/
-    ├── language_adherence.csv
-    ├── kirnews_classification.csv
-    └── comparison_summary.csv
-```
-
-Generated data, responses, and model outputs are ignored by git.
-
-## TODOs Before A Real Run
-
-- Add real `ADAPTION_API_KEY`, `TINKER_TOKEN`, and `HF_TOKEN` values to local `.env`.
-- Run Notebook 01 and manually inspect the sampled SFT rows before sending anything to Adaption.
-- Run the Adaption dry run, then a small pilot, before any full adaptation job.
-- Ask a Kirundi/Rundi speaker to review a sample of raw and adapted rows.
-- Confirm that the configured base model is supported by your Tinker account.
-- Start with the small default sample size, then increase it only after the pipeline works end to end.
-- Treat automatic language ID and KIRNEWS metrics as proxy signals, not final quality judgments.
 
 ## Adaption Blueprint
 
@@ -342,7 +230,7 @@ The Adaption data-improvement instructions live in [`configs/adaption_blueprint.
 
 > Improve this dataset for supervised fine-tuning a small assistant that can answer beginner-friendly questions in Rundi/Kirundi.
 
-The constraints emphasize preserving meaning, keeping responses in Rundi/Kirundi, avoiding unsupported local facts, removing malformed formatting and reasoning traces, and keeping explanations simple.
+The constraints emphasize preserving meaning, keeping responses in Kirundi, avoiding unsupported local facts, removing malformed formatting and reasoning traces, and keeping explanations simple.
 
 API usage follows the Adaption documentation:
 
