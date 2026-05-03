@@ -3,9 +3,8 @@ accelerate
 datasets
 evaluate
 huggingface-hub
-ipykernel
-jupyterlab
 langdetect
+marimo
 matplotlib
 numpy
 openai

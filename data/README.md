@@ -2,7 +2,7 @@
 
 This repo intentionally does not commit generated datasets.
 
-The notebooks and scripts create the following local files:
+The marimo notebooks and scripts create the following local files:
 
 | Directory | Purpose | Tracked? |
 |---|---|---|

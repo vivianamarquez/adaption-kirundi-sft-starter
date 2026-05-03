@@ -5,8 +5,7 @@ channels:
 dependencies:
   - python=3.11
   - pip
-  - ipykernel
-  - jupyterlab
+  - marimo
   - matplotlib
   - numpy
   - pandas

@@ -8,6 +8,8 @@ An open-source starter repo for improving low-resource Kirundi SFT data with [Ad
 
 > If we improve low-resource SFT data before training, do we see measurable changes in model behavior?
 
+This repo uses [marimo](https://marimo.io/) notebooks instead of Jupyter notebooks. marimo notebooks are stored as plain Python files, which makes them easier to review in git, run as scripts, and reuse as lightweight apps.
+
 ## Why This Project Exists
 
 In 2023, I taught AI in Burundi and saw the AI gap up close. At the time, many of the most widely used LLM tools were not accessible from the country. But the gap was bigger than platform access alone. It was also a language gap, a data gap, and a design gap.
@@ -68,7 +70,7 @@ Question:
 
 > Did the model actually answer in Kirundi?
 
-The preferred automatic evaluator is an African-language-aware language ID model such as [`UBC-NLP/afrolid_1.5`](https://huggingface.co/UBC-NLP/afrolid_1.5). If that is too heavy or unavailable, the notebook includes a transparent fallback heuristic and marks it as a fallback.
+The preferred automatic evaluator is an African-language-aware language ID model such as [`UBC-NLP/afrolid_1.5`](https://huggingface.co/UBC-NLP/afrolid_1.5). If that is too heavy or unavailable, the marimo notebook includes a transparent fallback heuristic and marks it as a fallback.
 
 Report table:
 
@@ -111,9 +113,34 @@ This is where native speaker review should eventually enter the loop.
 
 ### 1. Create the conda environment
 
+This repo keeps two environment files:
+
+- `environment.yml`: editable environment spec for development.
+- `environment.lock.yml`: exact exported versions from the local conda environment.
+
 ```bash
 conda env create -f environment.yml
 conda activate adaption-kirundi-sft
+```
+
+If you already created the environment before marimo was added, update it:
+
+```bash
+conda env update -f environment.yml --prune
+```
+
+To recreate the exact exported environment, use:
+
+```bash
+conda env create -f environment.lock.yml
+```
+
+If you prefer pip:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
 ### 2. Configure environment variables
@@ -132,20 +159,44 @@ TINKER_TOKEN=your_tinker_api_token
 ADAPTION_API_KEY=your_adaption_api_key
 ```
 
-## How To Run The Notebooks
+## How To Run The marimo Notebooks
+
+Open the marimo editor from the repo root:
+
+```bash
+marimo edit
+```
+
+Open a specific notebook:
+
+```bash
+marimo edit notebooks/00_project_overview.py
+```
+
+Run a notebook as a read-only app:
+
+```bash
+marimo run notebooks/00_project_overview.py
+```
+
+Execute a notebook as a Python script:
+
+```bash
+python notebooks/00_project_overview.py
+```
 
 Run notebooks in order:
 
 | # | Notebook | What it does | External key needed |
 |---|---|---|---|
-| 00 | `notebooks/00_project_overview.ipynb` | Explains the project and workflow | no |
-| 01 | `notebooks/01_prepare_kirundi_sft_dataset.ipynb` | Builds raw SFT and Adaption input files | no |
-| 02 | `notebooks/02_adapt_dataset_with_adaption.ipynb` | Runs Adaption estimate/pilot/download flow | Adaption for API cells |
-| 03 | `notebooks/03_sft_without_adaption.ipynb` | Tinker SFT on raw data | Tinker |
-| 04 | `notebooks/04_sft_with_adaption.ipynb` | Tinker SFT on adapted data | Tinker |
-| 05 | `notebooks/05_compare_results_three.ipynb` | Qualitative three-model comparison | Tinker if generating outputs |
-| 06 | `notebooks/06_evaluate_language_adherence.ipynb` | Language ID summary | optional HF model download |
-| 07 | `notebooks/07_evaluate_kirnews_classification.ipynb` | KIRNEWS accuracy/F1 | Tinker if generating predictions |
+| 00 | `notebooks/00_project_overview.py` | Explains the project and workflow | no |
+| 01 | `notebooks/01_prepare_kirundi_sft_dataset.py` | Builds raw SFT and Adaption input files | no |
+| 02 | `notebooks/02_adapt_dataset_with_adaption.py` | Runs Adaption estimate/pilot/download flow | Adaption for API cells |
+| 03 | `notebooks/03_sft_without_adaption.py` | Tinker SFT on raw data | Tinker |
+| 04 | `notebooks/04_sft_with_adaption.py` | Tinker SFT on adapted data | Tinker |
+| 05 | `notebooks/05_compare_results_three.py` | Qualitative three-model comparison | Tinker if generating outputs |
+| 06 | `notebooks/06_evaluate_language_adherence.py` | Language ID summary | optional HF model download |
+| 07 | `notebooks/07_evaluate_kirnews_classification.py` | KIRNEWS accuracy/F1 | Tinker if generating predictions |
 
 
 ## How To Run From The CLI

@@ -28,7 +28,7 @@ These notes capture observations from building this educational starter workflow
   - instruction/completion CSV
   - Hugging Face `datasets` upload
   - Tinker supervised fine-tuning format
-- A notebook that runs `estimate=True`, then a pilot, then a full run only after manual confirmation.
+- A marimo notebook that runs `estimate=True`, then a pilot, then a full run only after manual confirmation.
 
 ## Suggested Product Improvements
 

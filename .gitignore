@@ -1,4 +1,5 @@
-# Notebook runtime artifacts
+# Legacy Jupyter notebooks and runtime artifacts
+*.ipynb
 .ipynb_checkpoints/
 
 # Environment variables and secrets
@@ -34,8 +35,8 @@ venv/
 env/
 ENV/
 
-# Jupyter
-.jupyter/
+# marimo local state
+.marimo/
 
 # Editor and IDE files
 .vscode/
