@@ -36,14 +36,26 @@ def get_adaptation_job_config(run_config: dict[str, Any]) -> dict[str, Any]:
     return job_config
 
 
-def wait_until_ingested(client: Any, dataset_id: str, timeout_seconds: int | None = None) -> None:
+def wait_until_ingested(
+    client: Any,
+    dataset_id: str,
+    timeout_seconds: int | None = None,
+) -> Any:
     started = time.time()
     while True:
         status = client.datasets.get_status(dataset_id)
-        if getattr(status, "row_count", None) is not None:
-            return
+        status_name = str(getattr(status, "status", "") or "").lower()
+        row_count = getattr(status, "row_count", None)
+
+        if status_name in {"failed", "error"}:
+            raise RuntimeError(f"Dataset ingestion failed with status: {status_name}")
+
+        if row_count is not None:
+            return status
+
         if timeout_seconds is not None and time.time() - started > timeout_seconds:
-            raise TimeoutError(f"Dataset ingestion still pending after {timeout_seconds}s")
+            row_note = f" Current row_count={row_count}."
+            raise TimeoutError(f"Dataset ingestion still pending after {timeout_seconds}s.{row_note}")
         time.sleep(2)
 
 
@@ -132,7 +144,12 @@ def to_plain_data(value: Any) -> Any:
     return value
 
 
-def capture_dataset_diagnosis(client: Any, dataset_id: str, dataset_name: str) -> dict[str, Any]:
+def capture_dataset_diagnosis(
+    client: Any,
+    dataset_id: str,
+    dataset_name: str,
+    include_evaluation: bool = False,
+) -> dict[str, Any]:
     """Capture the API-visible fields closest to the UI diagnosis view."""
     dataset_record = client.datasets.get(dataset_id)
     dataset_status = client.datasets.get_status(dataset_id)
@@ -148,12 +165,13 @@ def capture_dataset_diagnosis(client: Any, dataset_id: str, dataset_name: str) -
         None,
     )
 
-    try:
-        pre_run_evaluation = client.datasets.get_evaluation(dataset_id)
-        evaluation_error = None
-    except Exception as exc:
-        pre_run_evaluation = None
-        evaluation_error = repr(exc)
+    pre_run_evaluation = None
+    evaluation_error = None
+    if include_evaluation:
+        try:
+            pre_run_evaluation = client.datasets.get_evaluation(dataset_id)
+        except Exception as exc:
+            evaluation_error = repr(exc)
 
     return {
         "dataset_id": dataset_id,
@@ -167,4 +185,5 @@ def capture_dataset_diagnosis(client: Any, dataset_id: str, dataset_name: str) -
         "listed_dataset": to_plain_data(listed_dataset),
         "pre_run_evaluation": to_plain_data(pre_run_evaluation),
         "pre_run_evaluation_error": evaluation_error,
+        "pre_run_evaluation_skipped": not include_evaluation,
     }

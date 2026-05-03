@@ -5,20 +5,24 @@ This document translates the build experience into onboarding suggestions for de
 ## Ideal First-Run Path
 
 1. Start with a tiny dataset and a documented schema.
-2. Upload the file.
-3. Confirm column mapping.
-4. Run an estimate.
-5. Run a small pilot before scaling up.
-6. Inspect before/after examples.
-7. Download the adapted output.
-8. Export to a training-ready format.
-9. Train a small SFT run.
-10. Evaluate on at least one automatic metric and one qualitative sample table.
+2. Normalize the upload file so each prompt/completion pair is easy for the platform to ingest.
+3. Upload the file.
+4. Confirm the platform-ingested row count matches the expected local row count.
+5. Confirm column mapping.
+6. Run an estimate.
+7. Run a small pilot before scaling up.
+8. Inspect before/after examples.
+9. Download the adapted output.
+10. Export to a training-ready format.
+11. Train a small SFT run.
+12. Evaluate on at least one automatic metric and one qualitative sample table.
 
 ## Onboarding Improvements For Adaption
 
 - Official notebook-first SFT starter repo.
 - Sample dataset that requires no customer data.
+- Pre-upload CSV validation guidance, especially for embedded newlines inside prompt/completion fields.
+- Rejected-row diagnostics when the uploaded file row count and API-ingested row count do not match.
 - Before/after table UI that highlights row-level changes.
 - SFT export presets for Tinker, TRL, OpenAI fine-tuning JSONL, and generic chat JSONL.
 - Low-resource language walkthrough showing how to avoid overclaiming.
@@ -39,6 +43,8 @@ For an SFT-focused workflow, useful defaults would be:
 |---|---|---|
 | `estimate_first` | true | Avoids accidental spend |
 | `pilot_max_rows` | small review sample | Makes review fast |
+| upload row-count check | required | Prevents requesting more rows than Adaption accepted |
+| newline normalization | recommended | Avoids CSV ingestion surprises |
 | `reasoning_traces` | false | Avoids training on hidden reasoning by accident |
 | `length` | concise | Keeps examples consistent |
 | export format | chat JSONL | Common denominator for SFT |

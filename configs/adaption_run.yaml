@@ -4,15 +4,16 @@ metadata_path: results/adaption_run_metadata.json
 diagnosis_path: results/adaption_dataset_diagnosis.json
 evaluation_path: results/adaption_dataset_evaluation.json
 
-dataset_name: kakugo-run-kirundi-200-row-run
-ingestion_timeout_seconds: null
+dataset_name: kakugo-run-kirundi-adaption-run
+ingestion_timeout_seconds: 120
 
 column_mapping:
   prompt: instruction
   completion: response
 
 adaptation_job:
-  max_rows: 200
+  # null means use the row_count that Adaption reports after upload.
+  max_rows: null
   timeout_seconds: null
 
 full_run:

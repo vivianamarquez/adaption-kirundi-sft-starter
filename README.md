@@ -152,7 +152,7 @@ Run notebooks in order:
 | # | Notebook | What it does | External key needed |
 |---|---|---|---|
 | 01 | `notebooks/01_prepare_kirundi_sft_dataset.ipynb` | Builds raw SFT and Adaption input files | no |
-| 02 | `notebooks/02_adapt_dataset_with_adaption.ipynb` | Uploads data, saves API-visible diagnosis metadata, then runs the 200-row Adaption estimate/run/download flow | Adaption for API cells |
+| 02 | `notebooks/02_adapt_dataset_with_adaption.ipynb` | Uploads data, saves API-visible diagnosis metadata, then adapts the rows Adaption accepts during upload | Adaption for API cells |
 | 03 | `notebooks/03_sft_without_adaption.ipynb` | Tinker SFT on raw data | Tinker |
 | 04 | `notebooks/04_sft_with_adaption.ipynb` | Tinker SFT on adapted data | Tinker |
 | 05 | `notebooks/05_compare_results_three.ipynb` | Qualitative three-model comparison | Tinker if generating outputs |
