@@ -1,10 +1,25 @@
 goal: >
   Improve this dataset for supervised fine-tuning a small assistant that can
-  answer beginner-friendly questions in Kirundi.
+  answer beginner-friendly questions in Kirundi. The input dataset may contain
+  Kinyarwanda-like or mixed Kinyarwanda/Kirundi examples, so part of the task is
+  language normalization into Kirundi.
+
+language_policy:
+  target_language: Kirundi
+  source_language_issue: >
+    Some rows may be mislabeled, mixed, or written in Kinyarwanda-like language
+    rather than clean Kirundi.
+  instructions:
+    - Treat Kirundi as the target language for both the instruction and response.
+    - If a row is Kinyarwanda-like or mixed but the meaning is clear, rewrite it into natural Kirundi while preserving the original task and answer.
+    - If the task explicitly asks for another language, preserve that requested output language.
+    - If local entities, places, currencies, or institutions appear because the row is Kinyarwanda-specific, do not invent Burundi-specific replacements. Prefer neutral wording unless those details are necessary to the task.
+    - If a row cannot be safely normalized without changing meaning, keep the safest faithful version and avoid adding unsupported facts.
 
 constraints:
   - Preserve the meaning of the original instruction and response.
-  - Keep responses in Kirundi unless the task explicitly asks for translation.
+  - Normalize Kinyarwanda-like or mixed-language text into Kirundi when meaning is clear.
+  - Keep instructions and responses in Kirundi unless the task explicitly asks for translation or classification labels in another language.
   - Make responses clear, concise, and educational.
   - Remove malformed formatting, unwanted reasoning traces, duplicated content, or low-quality responses.
   - Avoid unsupported factual claims.
@@ -14,6 +29,8 @@ constraints:
 quality_checks:
   - The prompt should be understandable without hidden context.
   - The response should directly answer the prompt.
+  - The instruction and response should read as Kirundi, not Kinyarwanda, unless another language is explicitly required by the task.
+  - Rwanda-specific details should only remain when they are part of the original task and necessary for preserving meaning.
   - The response should not include private chain-of-thought or hidden reasoning traces.
   - The response should avoid unnecessary English unless the prompt requests translation.
   - The response should be useful as supervised fine-tuning data.

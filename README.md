@@ -58,6 +58,8 @@ The two SFT notebooks use matching training settings. The intended experimental 
 | Kakugo Kirundi SFT data | [`ptrdvn/kakugo-run`](https://huggingface.co/datasets/ptrdvn/kakugo-run) | Raw SFT data for both training conditions |
 | KIRNEWS | [`andreniyongabo/kinnews_kirnews`](https://huggingface.co/datasets/andreniyongabo/kinnews_kirnews) | Labeled Kirundi news classification evaluation |
 
+Important data-quality note: `ptrdvn/kakugo-run` is used here as the Kirundi SFT source, but early inspection suggests some rows may be Kinyarwanda-like or mixed Kinyarwanda/Kirundi. This is part of the educational value of the repo: the workflow treats Adaption as a data-improvement and language-normalization step, then evaluates whether that changed downstream behavior. Do not assume the raw dataset is clean Kirundi without audit or native speaker review.
+
 The KIRNEWS evaluation asks the model to classify an article into English labels such as `politics`, `sport`, `economy`, `health`, `technology`, `education`, and related categories.
 
 ## Evaluation Methodology
@@ -148,7 +150,7 @@ Run notebooks in order:
 | # | Notebook | What it does | External key needed |
 |---|---|---|---|
 | 01 | `notebooks/01_prepare_kirundi_sft_dataset.ipynb` | Builds raw SFT and Adaption input files | no |
-| 02 | `notebooks/02_adapt_dataset_with_adaption.ipynb` | Runs Adaption estimate/pilot/download flow | Adaption for API cells |
+| 02 | `notebooks/02_adapt_dataset_with_adaption.ipynb` | Uploads data, saves API-visible diagnosis metadata, then runs Adaption estimate/pilot/download flow | Adaption for API cells |
 | 03 | `notebooks/03_sft_without_adaption.ipynb` | Tinker SFT on raw data | Tinker |
 | 04 | `notebooks/04_sft_with_adaption.ipynb` | Tinker SFT on adapted data | Tinker |
 | 05 | `notebooks/05_compare_results_three.ipynb` | Qualitative three-model comparison | Tinker if generating outputs |
@@ -238,7 +240,9 @@ The Adaption data-improvement instructions live in [`configs/adaption_blueprint.
 
 > Improve this dataset for supervised fine-tuning a small assistant that can answer beginner-friendly questions in Kirundi.
 
-The constraints emphasize preserving meaning, keeping responses in Kirundi, avoiding unsupported local facts, removing malformed formatting and reasoning traces, and keeping explanations simple.
+The constraints emphasize preserving meaning, normalizing Kinyarwanda-like or mixed rows into Kirundi when meaning is clear, avoiding unsupported local facts, removing malformed formatting and reasoning traces, and keeping explanations simple.
+
+This means the adapted-data condition is not only testing generic cleanup. It is also testing whether Adaption can help repair language contamination before SFT. That should be reported honestly as "data cleanup + language normalization," not as proof that the original dataset was already clean.
 
 API usage follows the Adaption documentation:
 
