@@ -1,0 +1,29 @@
+name: adaption-kirundi-sft
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.11
+  - pip
+  - ipykernel
+  - jupyterlab
+  - numpy
+  - pandas
+  - scikit-learn
+  - pyyaml
+  - python-dotenv
+  - tqdm
+  - pytest
+  - ruff
+  - pip:
+      - accelerate
+      - datasets
+      - evaluate
+      - huggingface-hub
+      - openai
+      - peft
+      - sacrebleu
+      - sentencepiece
+      - transformers
+      - trl
+      - wandb
