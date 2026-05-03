@@ -1,7 +1,7 @@
 # Adaption Kirundi SFT Starter
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![Status: Educational Starter](https://img.shields.io/badge/status-educational%20starter-orange.svg)]()
+[![Status: Educational Starter](https://img.shields.io/badge/status-beta-orange.svg)]()
 [![Purpose: Low-resource language SFT](https://img.shields.io/badge/purpose-low--resource%20SFT-green.svg)]()
 
 An open-source starter repo for improving low-resource Kirundi SFT data with [Adaption](https://docs.adaptionlabs.ai/) and evaluating post-training outcomes.
