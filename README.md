@@ -4,9 +4,7 @@
 [![Status: Beta](https://img.shields.io/badge/status-beta-orange.svg)]()
 [![Purpose: Educational](https://img.shields.io/badge/purpose-educational-green.svg)]()
 
-An open-source starter repo for improving low-resource Kirundi SFT data with [Adaption](https://docs.adaptionlabs.ai/) and evaluating post-training outcomes.
-
-This project is not claiming to build a perfect Kirundi model. It is a repeatable workflow for asking a narrower, more useful question:
+An open-source starter repo for improving low-resource Kirundi SFT data with [Adaption](https://adaptionlabs.ai/) and evaluating post-training outcomes.
 
 > If we improve low-resource SFT data before training, do we see measurable changes in model behavior?
 
