@@ -1,10 +1,10 @@
 goal: >
   Improve this dataset for supervised fine-tuning a small assistant that can
-  answer beginner-friendly questions in Rundi/Kirundi.
+  answer beginner-friendly questions in Kirundi.
 
 constraints:
   - Preserve the meaning of the original instruction and response.
-  - Keep responses in Rundi/Kirundi unless the task explicitly asks for translation.
+  - Keep responses in Kirundi unless the task explicitly asks for translation.
   - Make responses clear, concise, and educational.
   - Remove malformed formatting, unwanted reasoning traces, duplicated content, or low-quality responses.
   - Avoid unsupported factual claims.

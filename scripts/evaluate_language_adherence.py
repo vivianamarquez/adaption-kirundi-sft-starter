@@ -17,7 +17,7 @@ from kirundi_sft_starter.utils import PROJECT_ROOT, ensure_dir, load_yaml
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Evaluate whether model outputs are classified as Kirundi/Rundi.")
+    parser = argparse.ArgumentParser(description="Evaluate whether model outputs are classified as Kirundi.")
     parser.add_argument("--config", default="configs/project.yaml")
     parser.add_argument("--use-afrolid", action="store_true")
     args = parser.parse_args()

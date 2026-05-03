@@ -111,7 +111,7 @@ def _(mo):
     mo.md(r"""
     ## Qualitative review questions
 
-    - Did the answer stay in Kirundi/Rundi?
+    - Did the answer stay in Kirundi?
     - Did it answer the question directly?
     - Did it copy unwanted reasoning traces?
     - Did Adaption appear to improve clarity or formatting?

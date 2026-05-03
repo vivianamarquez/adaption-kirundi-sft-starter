@@ -37,7 +37,7 @@ def normalize_label(text: str, labels: list[str]) -> str:
 
 def is_kirundi_label(label: str, prefixes: tuple[str, ...] = ("run", "rn")) -> bool:
     normalized = (label or "").lower()
-    return normalized.startswith(prefixes) or "rundi" in normalized or "kirundi" in normalized
+    return normalized.startswith(prefixes) or "kirundi" in normalized
 
 
 def fallback_kirundi_heuristic(text: str) -> tuple[str, float]:
@@ -46,7 +46,7 @@ def fallback_kirundi_heuristic(text: str) -> tuple[str, float]:
         return "unknown", 0.0
     marker_hits = sum(1 for word in words if word in KIRUNDI_MARKERS)
     score = marker_hits / max(1, min(len(words), 50))
-    label = "heuristic_run" if score >= 0.06 else "unknown"
+    label = "heuristic_kirundi" if score >= 0.06 else "unknown"
     return label, min(1.0, score * 10)
 
 
@@ -87,7 +87,7 @@ def summarize_language_adherence(df: pd.DataFrame) -> pd.DataFrame:
         df.groupby("model")
         .agg(
             num_prompts=("prompt_id", "count"),
-            pct_kirundi_rundi=("is_kirundi", lambda s: round(100 * float(s.mean()), 2)),
+            pct_kirundi=("is_kirundi", lambda s: round(100 * float(s.mean()), 2)),
             notes=("method", lambda s: ", ".join(sorted(set(s)))),
         )
         .reset_index()

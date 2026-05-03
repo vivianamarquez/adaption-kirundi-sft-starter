@@ -16,7 +16,7 @@ def _(mo):
     mo.md(r"""
     # Notebook 06 - Evaluate Language Adherence
 
-    Question: did the model actually answer in Kirundi/Rundi?
+    Question: did the model actually answer in Kirundi?
 
     The preferred automatic evaluator is AfroLID (`UBC-NLP/afrolid_1.5`), an African-language-aware language identification model. If that model is too heavy for your machine, this notebook can use a transparent heuristic fallback. The fallback is not a real language ID model.
     """)
@@ -127,7 +127,7 @@ def _(mo):
     mo.md(r"""
     ## Report table
 
-    | model | num_prompts | % Kirundi/Rundi responses | notes |
+    | model | num_prompts | % Kirundi responses | notes |
     |---|---:|---:|---|
     | base | filled by notebook | filled by notebook | automatic LID or fallback |
     | sft_raw | filled by notebook | filled by notebook | automatic LID or fallback |

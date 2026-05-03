@@ -16,7 +16,7 @@ def _(mo):
     mo.md(r"""
     # Notebook 00 - Project Overview
 
-    This repo is a starter workflow for testing whether improving Kirundi/Rundi SFT data with Adaption changes post-training outcomes.
+    This repo is a starter workflow for testing whether improving Kirundi SFT data with Adaption changes post-training outcomes.
 
     The goal is not to prove that a model understands Kirundi perfectly. The goal is to make a repeatable experiment that compares three conditions:
 
@@ -88,12 +88,12 @@ def _(mo):
 
     | Notebook | Purpose | Requires credentials? |
     |---|---|---|
-    | `01_prepare_kirundi_sft_dataset.py` | Sample and clean Kakugo Rundi SFT data | No |
+    | `01_prepare_kirundi_sft_dataset.py` | Sample and clean Kakugo Kirundi SFT data | No |
     | `02_adapt_dataset_with_adaption.py` | Run estimate, pilot, download adapted data | Adaption key for API cells |
     | `03_sft_without_adaption.py` | Train SFT on raw data | Tinker key |
     | `04_sft_with_adaption.py` | Train SFT on adapted data | Tinker key |
     | `05_compare_results_three.py` | Compare base/raw/adapted outputs | Tinker key if generating fresh outputs |
-    | `06_evaluate_language_adherence.py` | Check whether outputs are classified as Kirundi/Rundi | Optional HF download for AfroLID |
+    | `06_evaluate_language_adherence.py` | Check whether outputs are classified as Kirundi | Optional HF download for AfroLID |
     | `07_evaluate_kirnews_classification.py` | Score KIRNEWS classification accuracy/F1 | Tinker key if generating fresh predictions |
     """)
     return
