@@ -20,23 +20,17 @@ The broader question is even more important: what would it look like for AI syst
 
 The framing is intentionally cautious. Qualitative model outputs are only early signals. Native speaker review matters. This repo does not claim to solve low-resource language AI. Instead, it offers a clear starter workflow that developers, researchers, and product teams can extend responsibly.
 
+Context photos from the teaching trip are included in [`img/burundi_2023.JPG`](img/burundi_2023.JPG) and [`img/openai_burundi_2023.JPG`](img/openai_burundi_2023.JPG).
+
 ## What This Repo Builds
 
-This repo walks through an end-to-end SFT experiment:
+This repo walks through a small SFT experiment in five notebooks:
 
-1. Load a small subset of `ptrdvn/kakugo-run` from Hugging Face.
-2. Clean and normalize the data into an instruction/response format.
-3. Send the raw SFT data through Adaption.
-4. Download the Adaption-improved dataset.
-5. Convert raw and adapted data into the same chat SFT JSONL format.
-6. Fine-tune the same base model twice with Tinker:
-   - SFT without Adaption
-   - SFT with Adaption-improved data
-7. Compare three model conditions:
-   - base model
-   - raw-data SFT model
-   - adapted-data SFT model
-8. Compare the three model conditions on the same short Kirundi prompts.
+1. [`Notebook 01`](notebooks/01_prepare_kirundi_sft_dataset.ipynb): load a small subset of [`ptrdvn/kakugo-run`](https://huggingface.co/datasets/ptrdvn/kakugo-run), normalize prompt/response columns, and create the raw SFT file.
+2. [`Notebook 02`](notebooks/02_adapt_dataset_with_adaption.ipynb): upload the raw data to Adaption, inspect API-visible metadata, run the adaptation job, and convert the adapted output to SFT format.
+3. [`Notebook 03`](notebooks/03_sft_without_adaption.ipynb): fine-tune the base model on the raw SFT data.
+4. [`Notebook 04`](notebooks/04_sft_with_adaption.ipynb): fine-tune the same base model on the Adaption-improved SFT data.
+5. [`Notebook 05`](notebooks/05_compare_results_three.ipynb): compare the base model, raw-data SFT model, and adapted-data SFT model on the same short Kirundi prompts.
 
 
 ## Experiment Design
@@ -44,12 +38,12 @@ This repo walks through an end-to-end SFT experiment:
 | Condition | Training data | Purpose |
 |---|---|---|
 | Base model | none | Baseline behavior before post-training |
-| SFT without Adaption | cleaned raw `ptrdvn/kakugo-run` subset | Measures effect of ordinary SFT data |
-| SFT with Adaption | same subset after Adaption improvement | Measures effect of data improvement before SFT |
+| SFT without Adaption | cleaned raw `ptrdvn/kakugo-run` subset | Measures the effect of ordinary SFT data |
+| SFT with Adaption | same subset after Adaption improvement | Measures whether data improvement changes model behavior |
 
-The two SFT notebooks use matching training settings. The intended experimental difference is the dataset, not the model, learning rate, renderer, or sampling setup.
+The two SFT notebooks use matching training settings. The intended experimental difference is the dataset, not the model, learning rate, renderer, or sampling setup. The shared configuration lives in [`configs/project.yaml`](configs/project.yaml), with run-specific settings in [`configs/tinker_sft_raw.yaml`](configs/tinker_sft_raw.yaml) and [`configs/tinker_sft_adapted.yaml`](configs/tinker_sft_adapted.yaml).
 
-## Datasets
+## Dataset Notes
 
 | Dataset | Repo ID | Used for |
 |---|---|---|
@@ -57,72 +51,46 @@ The two SFT notebooks use matching training settings. The intended experimental 
 
 Important data-quality note: `ptrdvn/kakugo-run` is used here as the Kirundi SFT source, but early inspection suggests some rows may be Kinyarwanda-like or mixed Kinyarwanda/Kirundi. This is part of the educational value of the repo: the workflow treats Adaption as a data-improvement and language-normalization step, then compares whether that changed downstream behavior. Do not assume the raw dataset is clean Kirundi without audit or native speaker review.
 
-## Comparison Methodology
 
-The current repo is intentionally trimmed to a fast, notebook-first qualitative comparison. Notebook 05 sends the same short Kirundi prompts to:
+## Results
 
-- the base model
-- the model SFT'd on raw data
-- the model SFT'd on Adaption-improved data
+The saved output in [`notebooks/05_compare_results_three.ipynb`](notebooks/05_compare_results_three.ipynb) is an honest early result from a very small experiment. It does not show reliable Kirundi instruction-following yet, but it does show why improving SFT data before training is worth testing: the raw dataset is noisy, the model is sensitive to that noise, and the adapted-data condition gives a useful comparison point instead of leaving the data-quality question implicit.
 
-It then prints the outputs side by side:
+What the current qualitative run shows:
 
-| prompt | base_output | sft_raw_output | sft_adapted_output | notes |
-|---|---|---|---|---|
+| Model condition | What happened in Notebook 05 |
+|---|---|
+| Base model | Often echoes or translates the prompt instead of answering it. In some prompts it falls into repeated role/text loops. |
+| SFT without Adaption | Produces more answer-shaped text, including lists and headings, but the content is often semantically weak, repetitive, or unrelated. |
+| SFT with Adaption | Shows some encouraging task-framing signals: it often starts closer to the requested answer style and preserves relevant prompt vocabulary better than the raw-data run. It still repeats phrases, echoes prompts, and does not yet produce consistently useful Kirundi answers. |
 
-This is where native speaker review should eventually enter the loop.
+The main takeaway is diagnostic, not conclusive. Training on around 200 examples is enough to run a proper SFT task. The Adaption version tends to start closer to the requested task and preserves more relevant vocabulary, suggesting that Adaption may already be helping with task framing or lexical alignment. The current outputs still need more data, stronger filtering, better sampling/training choices, and native speaker review.
 
 
 ## Setup
 
-### 1. Create the conda environment
-
-This repo keeps two environment files:
-
-- `environment.yml`: editable environment spec for development.
-- `environment.lock.yml`: exact exported versions from the local conda environment.
+Create the conda environment from [`environment.yml`](environment.yml):
 
 ```bash
 conda env create -f environment.yml
 conda activate adaption-kirundi-sft
 ```
 
-This environment uses Python 3.11, classic Jupyter Notebook 6, and RISE 5.7 for live slideshow teaching.
+This environment uses Python 3.11, classic Jupyter Notebook 6, and RISE 5.7 for live slideshow teaching. [`environment.lock.yml`](environment.lock.yml) records the local exported environment for reproducibility, while [`requirements.txt`](requirements.txt) provides a pip-oriented dependency list.
 
-### 2. Configure environment variables
-
-Copy the example file:
+Copy the environment example:
 
 ```bash
 cp .env.example .env
 ```
 
-Fill in your own credentials:
+Fill in your own credentials using the keys shown in [`.env.example`](.env.example):
 
 ```bash
 HF_TOKEN=your_huggingface_token
 TINKER_TOKEN=your_tinker_api_token
 ADAPTION_API_KEY=your_adaption_api_key
 ```
-
-## How To Run The Jupyter Notebooks
-
-Open the `notebooks/` folder in the browser and work through the notebooks in order.
-
-This repo is intentionally notebook-first. Reusable helper code lives in `src/kirundi_sft_starter/`, and the project does not maintain a separate command-line workflow.
-
-Run notebooks in order:
-
-| # | Notebook | What it does | External key needed |
-|---|---|---|---|
-| 01 | `notebooks/01_prepare_kirundi_sft_dataset.ipynb` | Builds raw SFT and Adaption input files | no |
-| 02 | `notebooks/02_adapt_dataset_with_adaption.ipynb` | Uploads data, saves API-visible diagnosis metadata, then adapts the rows Adaption accepts during upload | Adaption for API cells |
-| 03 | `notebooks/03_sft_without_adaption.ipynb` | Tinker SFT on raw data | Tinker |
-| 04 | `notebooks/04_sft_with_adaption.ipynb` | Tinker SFT on adapted data | Tinker |
-| 05 | `notebooks/05_compare_results_three.ipynb` | Qualitative three-model comparison | Tinker if generating outputs |
-
-Notebooks 03 and 04 launch real Tinker SFT jobs directly. If the data file, Tinker token, package imports, or service access are wrong, those cells are expected to fail visibly so the issue can be fixed.
-
 
 ## Adaption Blueprint
 
@@ -150,6 +118,13 @@ API usage follows the Adaption documentation:
 - Tinker and Adaption API calls require credentials and may incur usage costs.
 - The base model choice is configurable. Use a model that your training provider supports and document any change.
 
+## Future Work
+
+- Increase the dataset size and adjust hyperparameters accordingly.
+- Add native-speaker review for the prompts, adapted rows, and generated answers.
+- Add automatic evaluations later, once the qualitative behavior is less noisy.
+- Expand this workflow to other low-resource languages with community contributors.
+
 ## Important Notice
 
 This project is provided as-is for educational and research purposes.
@@ -157,4 +132,4 @@ This project is provided as-is for educational and research purposes.
 - It is not production-ready.
 - It may contain incomplete API examples while services evolve.
 
-Contributions are welcome! Please feel free to submit issues or pull requests.
+Contributions are welcome! 🇧🇮 Please feel free to submit issues or pull requests.
