@@ -69,5 +69,17 @@ data/eval/*
 
 # Generated results
 results/*
+!results/models/
+!results/models/sft_raw/
+!results/models/sft_adapted/
+!results/responses/
+results/models/*
+results/models/sft_raw/*
+results/models/sft_adapted/*
+results/responses/*
 !results/.gitkeep
+!results/models/.gitkeep
+!results/models/sft_raw/.gitkeep
+!results/models/sft_adapted/.gitkeep
+!results/responses/.gitkeep
 !results/README.md
