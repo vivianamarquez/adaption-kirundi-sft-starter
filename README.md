@@ -28,7 +28,7 @@ The framing is intentionally cautious. Qualitative model outputs are only early 
       <sub>Teaching AI in Burundi in 2023.</sub>
     </td>
     <td align="center" width="50%">
-      <img src="img/chatgpt_2023.JPG" alt="AI workshop context from Burundi in 2023" width="100%">
+      <img src="img/chatgpt_burundi_2023.JPG" alt="AI workshop context from Burundi in 2023" width="100%">
       <br>
       <sub>At the time, some major LLM tools were not available in the country.</sub>
     </td>
