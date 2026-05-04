@@ -1,6 +1,6 @@
 project:
   name: adaption-kirundi-sft-starter
-  description: "Improve low-resource Kirundi SFT data with Adaption and evaluate post-training outcomes."
+  description: "Improve low-resource Kirundi SFT data with Adaption and compare post-training outcomes."
   random_seed: 42
 
 datasets:
@@ -14,12 +14,6 @@ datasets:
     raw_sft_path: data/processed/kakugo_raw_sft.jsonl
     adapted_output_path: data/adapted/kakugo_adapted.csv
     adapted_sft_path: data/processed/kakugo_adapted_sft.jsonl
-  kirnews:
-    id: andreniyongabo/kinnews_kirnews
-    config: kirnews_raw
-    split: test
-    sample_size: 100
-    prompt_path: data/eval/kirnews_prompts.jsonl
 
 models:
   base_model: Qwen/Qwen3-8B-Base
@@ -41,9 +35,5 @@ models:
       checkpoint_path: results/models/sft_adapted/checkpoints.jsonl
       response_path: results/responses/sft_adapted.jsonl
 
-evaluation:
-  language_id_model: UBC-NLP/afrolid_1.5
-  language_prompts_path: configs/language_adherence_prompts.jsonl
-  language_results_path: results/eval/language_adherence.csv
-  kirnews_results_path: results/eval/kirnews_classification.csv
-  comparison_summary_path: results/eval/comparison_summary.csv
+comparison:
+  prompts_path: configs/language_adherence_prompts.jsonl

@@ -1,12 +1,10 @@
 adaption
 accelerate
 datasets
-evaluate
 huggingface-hub
 httpx
 ipykernel
 jupyter
-langdetect
 matplotlib
 nbconvert
 nbformat
@@ -19,9 +17,6 @@ python-dotenv
 pyyaml
 rise==5.7.1
 ruff
-sacrebleu==2.6.0
-scikit-learn
-seaborn
 sentencepiece
 setuptools<81
 tinker>=0.18

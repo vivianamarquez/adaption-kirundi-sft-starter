@@ -22,7 +22,7 @@ These notes capture observations from building this educational starter workflow
 ## What Examples Were Missing Or Would Help
 
 - An official SFT starter repo with a small public dataset and before/after output.
-- A low-resource language example with clear responsible framing and proxy evaluations.
+- A low-resource language example with clear responsible framing and qualitative before/after review.
 - A before/after diff view for adapted rows, including what changed and why.
 - A pre-upload validation checklist for CSV files, including embedded newlines, blank prompt/completion fields, very short completions, malformed quoting, and the difference between local parser row count and platform-ingested row count.
 - Export presets for common post-training formats:
@@ -46,7 +46,7 @@ These notes capture observations from building this educational starter workflow
   - deduplication
   - length adjustment
   - hallucination risk reduction
-- Add evaluation rubric templates for dataset quality, language adherence, and task performance.
+- Add review rubric templates for dataset quality, language quality, formatting, and native speaker review.
 
 ## Responsible Product Framing
 

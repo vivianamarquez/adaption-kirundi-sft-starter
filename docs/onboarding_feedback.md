@@ -15,7 +15,7 @@ This document translates the build experience into onboarding suggestions for de
 9. Download the adapted output.
 10. Export to a training-ready format.
 11. Train a small SFT run.
-12. Evaluate on at least one automatic metric and one qualitative sample table.
+12. Compare model outputs on a small qualitative sample table before adding heavier automatic evaluations.
 
 ## Onboarding Improvements For Adaption
 
@@ -26,9 +26,9 @@ This document translates the build experience into onboarding suggestions for de
 - Before/after table UI that highlights row-level changes.
 - SFT export presets for Tinker, TRL, OpenAI fine-tuning JSONL, and generic chat JSONL.
 - Low-resource language walkthrough showing how to avoid overclaiming.
-- Evaluation rubric templates:
-  - language adherence
-  - task accuracy
+- Review rubric templates:
+  - language quality
+  - task completion
   - factuality risk
   - formatting consistency
   - native speaker review
@@ -55,4 +55,4 @@ For an SFT-focused workflow, useful defaults would be:
 - The Jupyter notebooks are intentionally runnable as real workflows when credentials are configured.
 - Cells that call paid or external APIs should fail clearly if credentials, input files, or service access are missing.
 - The default flow avoids RLHF, DPO, and preference optimization so the learning goal stays focused on SFT data quality.
-- The evaluation is a proxy. It should guide iteration, not replace native speaker review.
+- The qualitative comparison is a proxy. It should guide iteration, not replace native speaker review.

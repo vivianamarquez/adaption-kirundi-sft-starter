@@ -190,10 +190,7 @@ dependencies:
   - rise=5.7.1
   - rpds-py=0.30.0
   - ruff=0.15.11
-  - scikit-learn=1.8.0
   - scipy=1.17.1
-  - seaborn=0.13.2
-  - seaborn-base=0.13.2
   - send2trash=2.1.0
   - six=1.17.0
   - sleef=3.9.0
@@ -245,7 +242,6 @@ dependencies:
       - datasets==4.8.5
       - dill==0.4.1
       - distro==1.9.0
-      - evaluate==0.4.6
       - frozenlist==1.8.0
       - fsspec==2026.2.0
       - gitdb==4.0.12
@@ -253,7 +249,6 @@ dependencies:
       - hf-xet==1.4.3
       - huggingface-hub==1.13.0
       - jiter==0.14.0
-      - langdetect==1.0.9
       - lxml==6.1.0
       - markdown-it-py==4.0.0
       - mdurl==0.1.2
@@ -271,7 +266,6 @@ dependencies:
       - pydantic-core==2.46.3
       - regex==2026.4.4
       - rich==15.0.0
-      - sacrebleu==2.6.0
       - safetensors==0.7.0
       - sentencepiece==0.2.1
       - sentry-sdk==2.58.0

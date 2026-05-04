@@ -1,7 +1,7 @@
 [project]
 name = "adaption-kirundi-sft-starter"
 version = "0.1.0"
-description = "Starter workflow for improving low-resource Kirundi SFT data with Adaption and evaluating post-training outcomes."
+description = "Starter workflow for improving low-resource Kirundi SFT data with Adaption and comparing post-training outcomes."
 readme = "README.md"
 requires-python = ">=3.11"
 
