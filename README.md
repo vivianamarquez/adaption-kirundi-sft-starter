@@ -131,6 +131,19 @@ API usage follows the Adaption documentation:
 - Tinker and Adaption API calls require credentials and may incur usage costs.
 - The base model choice is configurable. Use a model that your training provider supports and document any change.
 
+## Evaluation: Current State and Next Step
+
+This starter currently includes a qualitative side-by-side comparison across three model conditions: base model, SFT without Adaption, and SFT with Adaption-improved data.
+
+Because the current run uses only ~200 SFT examples, I treat these outputs as diagnostic signals rather than final model-quality results. The early comparison helps surface whether the models are answering in the requested style, echoing prompts, repeating phrases, or producing answer-shaped but semantically weak text.
+
+The next evaluation layer would add two proxy metrics:
+
+1. **Language adherence:** use a language identification model to estimate the percentage of responses classified as Kirundi/Rundi.
+2. **KIRNEWS classification:** evaluate whether each model can classify labeled Kirundi news examples into the correct category.
+
+These metrics would still not replace native-speaker review, but they would give builders a more repeatable way to compare raw SFT data against Adaption-improved SFT data.
+
 ## Future Work
 
 - Increase the dataset size and adjust hyperparameters accordingly.
