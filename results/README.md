@@ -11,8 +11,6 @@ Current notebook outputs:
 - Notebook 04 writes the adapted-data SFT run under `models/sft_adapted/`.
 - Notebook 05 writes comparable model responses under `responses/`.
 
-Notebooks 06 and 07 were removed from the current repo scope, so this folder should not contain `eval/` summaries or `kirnews_*` response files.
-
 Recommended layout:
 
 ```text
