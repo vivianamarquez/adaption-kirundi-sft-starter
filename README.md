@@ -6,7 +6,7 @@
 
 An open-source starter repo for improving low-resource Kirundi SFT data with [Adaption](https://adaptionlabs.ai/) and comparing post-training outcomes.
 
-> If we improve low-resource SFT data before training, do we see measurable changes in model behavior?
+> If we improve low-resource SFT data before training, what changes can we observe in downstream model behavior?
 
 ## Why This Project Exists
 
