@@ -20,7 +20,20 @@ The broader question is even more important: what would it look like for AI syst
 
 The framing is intentionally cautious. Qualitative model outputs are only early signals. Native speaker review matters. This repo does not claim to solve low-resource language AI. Instead, it offers a clear starter workflow that developers, researchers, and product teams can extend responsibly.
 
-Context photos from the teaching trip are included in [`img/burundi_2023.JPG`](img/burundi_2023.JPG) and [`img/openai_burundi_2023.JPG`](img/openai_burundi_2023.JPG).
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="img/burundi_2023.JPG" alt="Teaching AI in Burundi in 2023" width="100%">
+      <br>
+      <sub>Teaching AI in Burundi in 2023.</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="img/openai_burundi_2023.JPG" alt="AI workshop context from Burundi in 2023" width="100%">
+      <br>
+      <sub>Workshop context from the Burundi AI teaching trip.</sub>
+    </td>
+  </tr>
+</table>
 
 ## What This Repo Builds
 
