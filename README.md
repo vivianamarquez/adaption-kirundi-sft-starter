@@ -30,7 +30,7 @@ The framing is intentionally cautious. Qualitative model outputs are only early 
     <td align="center" width="50%">
       <img src="img/openai_burundi_2023.JPG" alt="AI workshop context from Burundi in 2023" width="100%">
       <br>
-      <sub>Workshop context from the Burundi AI teaching trip.</sub>
+      <sub>At the time, some major LLM tools were not available in the country.</sub>
     </td>
   </tr>
 </table>
