@@ -41,8 +41,8 @@ This repo walks through a small SFT experiment in five notebooks:
 
 1. [`Notebook 01`](notebooks/01_prepare_kirundi_sft_dataset.ipynb): load a small subset of [`ptrdvn/kakugo-run`](https://huggingface.co/datasets/ptrdvn/kakugo-run), normalize prompt/response columns, and create the raw SFT file.
 2. [`Notebook 02`](notebooks/02_adapt_dataset_with_adaption.ipynb): upload the raw data to Adaption, inspect API-visible metadata, run the adaptation job, and convert the adapted output to SFT format.
-3. [`Notebook 03`](notebooks/03_sft_without_adaption.ipynb): fine-tune the base model on the raw SFT data.
-4. [`Notebook 04`](notebooks/04_sft_with_adaption.ipynb): fine-tune the same base model on the Adaption-improved SFT data.
+3. [`Notebook 03`](notebooks/03_sft_without_adaption.ipynb): fine-tune the base model on the raw SFT data using **Tinker**.
+4. [`Notebook 04`](notebooks/04_sft_with_adaption.ipynb): fine-tune the same base model on the Adaption-improved SFT data using **Tinker**.
 5. [`Notebook 05`](notebooks/05_compare_results_three.ipynb): compare the base model, raw-data SFT model, and adapted-data SFT model on the same short Kirundi prompts.
 
 
