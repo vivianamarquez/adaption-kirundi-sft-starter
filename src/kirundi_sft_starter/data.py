@@ -47,11 +47,25 @@ def truncate_text(text: str, max_chars: int) -> str:
     return text[: max_chars - 20].rstrip() + " ... [truncated]"
 
 
+def resolve_sample_size(value: Any) -> int | None:
+    if value is None:
+        return None
+    if isinstance(value, str) and value.strip().lower() in {"", "all", "full", "none", "null"}:
+        return None
+
+    sample_size = int(value)
+    if sample_size <= 0:
+        raise ValueError("sample_size must be a positive integer, null, or 'all'.")
+    return sample_size
+
+
 def prepare_kakugo_subset(config: dict[str, Any]) -> pd.DataFrame:
     ds_cfg = config["datasets"]["sft"]
     dataset = load_dataset(ds_cfg["id"], split=ds_cfg["split"])
     dataset = dataset.shuffle(seed=config["project"]["random_seed"])
-    dataset = dataset.select(range(min(ds_cfg["sample_size"], len(dataset))))
+    sample_size = resolve_sample_size(ds_cfg.get("sample_size"))
+    if sample_size is not None:
+        dataset = dataset.select(range(min(sample_size, len(dataset))))
 
     max_chars = int(ds_cfg.get("max_chars_per_field", 4000))
     rows: list[dict[str, Any]] = []

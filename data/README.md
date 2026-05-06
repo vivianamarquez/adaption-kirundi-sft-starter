@@ -6,7 +6,7 @@ The Jupyter notebooks create the following local files:
 
 | Directory | Purpose | Tracked? |
 |---|---|---|
-| `data/raw/` | Small local samples pulled from Hugging Face | no |
+| `data/raw/` | Local raw rows pulled from Hugging Face | no |
 | `data/processed/` | Clean JSONL/CSV files ready for SFT or Adaption | no |
 | `data/adapted/` | Files downloaded from Adaption | no |
 

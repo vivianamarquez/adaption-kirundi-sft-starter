@@ -7,9 +7,11 @@ datasets:
   sft:
     id: ptrdvn/kakugo-run
     split: train
-    sample_size: 200
+    # Use null or "all" for the full Hugging Face split.
+    # Set a positive integer, such as 200, for a quick smoke-test subset.
+    sample_size: null
     max_chars_per_field: 4000
-    raw_sample_path: data/raw/kakugo_run_sample.jsonl
+    raw_sample_path: data/raw/kakugo_run.jsonl
     adaption_input_path: data/processed/kakugo_adaption_input.csv
     raw_sft_path: data/processed/kakugo_raw_sft.jsonl
     adapted_output_path: data/adapted/kakugo_adapted.csv
