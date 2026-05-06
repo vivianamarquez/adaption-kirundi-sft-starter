@@ -54,7 +54,7 @@ This repo walks through a small SFT experiment in five notebooks:
 | SFT without Adaption | cleaned raw `ptrdvn/kakugo-run` rows | Measures the effect of ordinary SFT data |
 | SFT with Adaption | same rows after Adaption improvement | Measures whether data improvement changes model behavior |
 
-The two SFT notebooks use matching training settings. The intended experimental difference is the dataset, not the model, learning rate, renderer, or sampling setup. The shared configuration lives in [`configs/project.yaml`](configs/project.yaml), with run-specific settings in [`configs/tinker_sft_raw.yaml`](configs/tinker_sft_raw.yaml) and [`configs/tinker_sft_adapted.yaml`](configs/tinker_sft_adapted.yaml). By default, `sample_size: null` uses the full Hugging Face split; set `sample_size` to a positive integer, such as `200`, for a faster smoke-test subset.
+The two SFT notebooks use matching training settings. The intended experimental difference is the dataset, not the model, learning rate, renderer, or sampling setup. The shared configuration lives in [`configs/project.yaml`](configs/project.yaml), with run-specific settings in [`configs/tinker_sft_raw.yaml`](configs/tinker_sft_raw.yaml) and [`configs/tinker_sft_adapted.yaml`](configs/tinker_sft_adapted.yaml). By default, `sample_size: 20000` shuffles the Hugging Face split with the project random seed and keeps 20,000 rows. Use `sample_size: null` or `sample_size: all` only when you intend to process the full split.
 
 ## Dataset Notes
 
@@ -67,9 +67,9 @@ Important data-quality note: `ptrdvn/kakugo-run` is used here as the Kirundi SFT
 
 ## Results
 
-The saved output in [`notebooks/05_compare_results_three.ipynb`](notebooks/05_compare_results_three.ipynb) is an honest early result from a very small experiment. It does not show reliable Kirundi instruction-following yet, but it does show why improving SFT data before training is worth testing: the raw dataset is noisy, the model is sensitive to that noise, and the adapted-data condition gives a useful comparison point instead of leaving the data-quality question implicit.
+The qualitative notes below come from an earlier small experiment. It did not show reliable Kirundi instruction-following yet, but it did show why improving SFT data before training is worth testing: the raw dataset is noisy, the model is sensitive to that noise, and the adapted-data condition gives a useful comparison point instead of leaving the data-quality question implicit.
 
-What the current qualitative run shows:
+What the earlier qualitative run showed:
 
 | Model condition | What happened in Notebook 05 |
 |---|---|
@@ -77,7 +77,7 @@ What the current qualitative run shows:
 | SFT without Adaption | Produces more answer-shaped text, including lists and headings, but the content is often semantically weak, repetitive, or unrelated. |
 | SFT with Adaption | Shows some encouraging task-framing signals: it often starts closer to the requested answer style and preserves relevant prompt vocabulary better than the raw-data run. It still repeats phrases, echoes prompts, and does not yet produce consistently useful Kirundi answers. |
 
-The main takeaway is diagnostic, not conclusive. The checked-in qualitative outputs came from an early run of around 200 examples, which is enough to exercise the SFT workflow but not enough for final model-quality claims. The Adaption version tends to start closer to the requested task and preserves more relevant vocabulary, suggesting that Adaption may already be helping with task framing or lexical alignment. Full-dataset reruns should still include stronger filtering, better sampling/training choices, and native speaker review.
+The main takeaway is diagnostic, not conclusive. The checked-in qualitative outputs came from an early run of around 200 examples, which is enough to exercise the SFT workflow but not enough for final model-quality claims. The Adaption version tends to start closer to the requested task and preserves more relevant vocabulary, suggesting that Adaption may already be helping with task framing or lexical alignment. Larger reruns should still include stronger filtering, better sampling/training choices, and native speaker review.
 
 
 ## Setup
@@ -127,7 +127,7 @@ API usage follows the Adaption documentation:
 - This repo is a starter workflow, not a definitive Kirundi benchmark.
 - The current version focuses on qualitative comparison, not automatic benchmark metrics.
 - Native speaker review is necessary before drawing strong conclusions.
-- Full-dataset runs can take longer and may cost more through Adaption and Tinker; set `sample_size` to an integer when you need a quick iteration pass.
+- Larger runs can take longer and may cost more through Adaption and Tinker; the default is capped at a random 20,000 rows.
 - Tinker and Adaption API calls require credentials and may incur usage costs.
 - The base model choice is configurable. Use a model that your training provider supports and document any change.
 
@@ -146,7 +146,7 @@ These metrics would still not replace native-speaker review, but they would give
 
 ## Future Work
 
-- Audit and filter the full dataset, then adjust hyperparameters accordingly.
+- Audit and filter the 20,000-row sample, then adjust hyperparameters accordingly.
 - Add native-speaker review for the prompts, adapted rows, and generated answers.
 - Add automatic evaluations later, once the qualitative behavior is less noisy.
 - Expand this workflow to other low-resource languages with community contributors.

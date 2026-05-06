@@ -65,6 +65,7 @@ def prepare_kakugo_subset(config: dict[str, Any]) -> pd.DataFrame:
     dataset = dataset.shuffle(seed=config["project"]["random_seed"])
     sample_size = resolve_sample_size(ds_cfg.get("sample_size"))
     if sample_size is not None:
+        # Shuffle first so configured subsets are reproducible random samples.
         dataset = dataset.select(range(min(sample_size, len(dataset))))
 
     max_chars = int(ds_cfg.get("max_chars_per_field", 4000))
