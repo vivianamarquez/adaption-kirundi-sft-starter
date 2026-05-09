@@ -13,8 +13,19 @@ from .utils import ensure_dir, project_path, write_jsonl
 THINKING_RE = re.compile(r"<think>.*?</think>", flags=re.DOTALL | re.IGNORECASE)
 
 
-def strip_reasoning_traces(text: str) -> str:
-    text = THINKING_RE.sub("", text or "")
+def coerce_text(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        return value
+    if pd.api.types.is_scalar(value) and pd.isna(value):
+        return ""
+    return str(value)
+
+
+def strip_reasoning_traces(text: Any) -> str:
+    text = coerce_text(text)
+    text = THINKING_RE.sub("", text)
     return re.sub(r"\s+", " ", text).strip()
 
 
@@ -40,8 +51,8 @@ def messages_to_pair(messages: list[dict[str, str]]) -> tuple[str, str]:
     return instruction, response
 
 
-def truncate_text(text: str, max_chars: int) -> str:
-    text = text or ""
+def truncate_text(text: Any, max_chars: int) -> str:
+    text = coerce_text(text)
     if len(text) <= max_chars:
         return text
     return text[: max_chars - 20].rstrip() + " ... [truncated]"
@@ -107,8 +118,8 @@ def save_sft_jsonl(df: pd.DataFrame, path: str | Path) -> Path:
         rows.append(
             {
                 "messages": [
-                    {"role": "user", "content": str(row["instruction"]).strip()},
-                    {"role": "assistant", "content": str(row["response"]).strip()},
+                    {"role": "user", "content": coerce_text(row["instruction"]).strip()},
+                    {"role": "assistant", "content": coerce_text(row["response"]).strip()},
                 ],
                 "metadata": {"example_id": row.get("example_id")},
             }
@@ -147,8 +158,8 @@ def convert_adapted_to_sft(input_path: str | Path, output_path: str | Path) -> p
     normalized = pd.DataFrame(
         {
             "example_id": df.get("example_id", pd.Series([f"adapted_{i:05d}" for i in range(len(df))])),
-            "instruction": df[prompt_col].astype(str),
-            "response": df[response_col].astype(str).map(strip_reasoning_traces),
+            "instruction": df[prompt_col].map(coerce_text),
+            "response": df[response_col].map(strip_reasoning_traces),
         }
     )
     save_sft_jsonl(normalized, output_path)
